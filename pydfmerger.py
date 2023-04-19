@@ -2,7 +2,7 @@ import os
 import platform
 import subprocess
 import tkinter as Tki
-from tkinter.filedialog import askopenfilename, asksaveasfilename
+from tkinter.filedialog import askopenfilenames, asksaveasfilename
 from tkinter.messagebox import askyesno
 
 from pypdf import PdfMerger
@@ -44,7 +44,9 @@ def merge_pdf():
 
 def save_file():
     """opens save dialog"""
-    savePath = asksaveasfilename(filetypes=[("PDF Files", "*.pdf")])
+    savePath = asksaveasfilename(
+        defaultextension=".pdf", filetypes=[("PDF Files", "*.pdf")]
+    )
     return savePath
 
 
@@ -60,8 +62,9 @@ def invoke_merged_pdf(filePath):
 def open_file():
     """opens file manager and adds the filepath to the listbox"""
     global filePath
-    filePath = askopenfilename(filetypes=[("PDF Files", "*.pdf")])
-    my_listbox.insert(Tki.END, filePath)
+    filePath = askopenfilenames(filetypes=[("PDF Files", "*.pdf")])
+    for item in filePath:
+        my_listbox.insert(Tki.END, item)
 
 
 def move_up():
