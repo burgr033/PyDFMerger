@@ -23,9 +23,24 @@ jobs:
         with:
           files: pydfmerger.py README.md requirements.txt LICENSE
           dest: "${{ github.workspace }}/${{github.ref_name}}.zip"
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          draft: false
           prerelease: false
-          files: |
-            *.zip
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          
+      - name: upload windows artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: "${{ github.workspace }}/${{github.ref_name}}.zip"
+          asset_name: ${{github.ref_name}}.zip
+          asset_content_type: application/zip
