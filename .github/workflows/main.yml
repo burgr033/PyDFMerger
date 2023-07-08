@@ -22,7 +22,7 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: pydfmerger.py README.md requirements.txt LICENSE
-          dest: "${{ github.workspace }}/${{github.ref_name}}.zip"
+          dest: ${{github.ref_name}}.zip
       - name: release
         uses: actions/create-release@v1
         id: create_release
@@ -40,6 +40,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: "${{ github.workspace }}/${{github.ref_name}}.zip"
+          asset_path: ${{github.ref_name}}.zip
           asset_name: ${{github.ref_name}}.zip
           asset_content_type: application/zip
