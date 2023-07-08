@@ -22,10 +22,10 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: pydfmerger.py README.md requirements.txt LICENSE
-          dest: ${{GITHUB_REF_NAME}}.zip
+          dest: "${{github.ref_name}}.zip"
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            ${{GITHUB_REF_NAME}}.zip
+            "${{github.ref_name}}.zip"
